@@ -1,0 +1,273 @@
+body {
+    font-family: 'monsterrat', "prompt",;
+    background-color: #eeebe0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200vh;
+    max-width:1500px ;
+}
+
+.cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 60%;
+    max-width: 800px;
+}
+
+.card {
+    background: #e0e0e0;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 7px 7px 14px #d1d1d1, -7px -7px 14px #ffffff;
+    transition: transform 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.ticker-container {
+    margin-bottom: 20px;
+}
+
+.search-bar {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.search-bar input {
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    width: 60%;
+    background: #e0e0e0;
+    box-shadow: inset 5px 5px 10px #d1d1d1, inset -5px -5px 10px #ffffff;
+}
+
+.search-bar button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background: #046c54;
+    box-shadow: 5px 5px 10px #d1d1d1, -5px -5px 10px #ffffff;
+    cursor: pointer;
+    transition: box-shadow 0.2s ease;
+}
+
+.search-bar button:hover {
+    box-shadow: 3px 3px 6px #d1d1d1, -3px -3px 6px #ffffff;
+}
+
+.note-section {
+    margin-top: 20px;
+}
+
+.note-section button {
+    display: block;
+    margin: 10px 0;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background: #e0e0e0;
+    box-shadow: 5px 5px 10px #d1d1d1, -5px -5px 10px #ffffff;
+    cursor: pointer;
+    transition: box-shadow 0.2s ease;
+}
+
+.note-section button:hover {
+    box-shadow: 3px 3px 6px #d1d1d1, -3px -3px 6px #ffffff;
+}
+
+.note-textarea {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background: #e0e0e0;
+    box-shadow: inset 5px 5px 10px #d1d1d1, inset -5px -5px 10px #ffffff;
+    resize: vertical;
+}
+
+
+
+/* Logo container styling */
+.logo-container {
+    text-align: center;
+    padding: 20px 0;
+    background-color: #2C3E50;
+    z-index: 1;
+}
+
+.logo-container img {
+    margin-top: 0;
+    max-width: 80%;
+    height: auto;
+    border-radius: 50%;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+}
+
+
+
+
+header nav ul li {
+    margin-bottom: 15px;
+}
+
+header nav ul li a {
+    padding: 15px 25px;
+    text-align: right;
+    display: block;
+    color: #E1E1E1; /* Adjusting the color for better visibility */
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    border-radius: 8px;
+}
+
+header nav ul li a:hover {
+    background-color: #2C3E50;
+}
+
+/* Main Content Styles */
+main {
+    margin-left: 310px; /* Adjusted to account for the wider sidebar */
+    padding: 30px;
+    background-color: #F4F4F4; /* Consistent with the body background */
+    box-shadow: none; /* Removing the shadow for a cleaner look */
+    width: calc(100% - 310px); /* Adjusted width */
+    min-height: 100vh;
+    transition: margin-left 0.5s;
+    justify-content: center;
+    border-radius: 8px;
+}
+
+/* Main content area */
+.dashboard-container, .dashboard-container-deals {
+    padding: 20px;
+    width: 100%;
+    margin-left: 0%;
+    background-color: #FFFFFF; /* White background for content sections */
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Subtle shadow for depth */
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    color: #2C3E50;
+    margin-top: 0;
+    text-align: center;
+}
+
+p, li, a {
+    color: #34495E;
+    line-height: 1.6;
+}
+
+a {
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #CC8C2C;
+}
+
+/* Buttons */
+button {
+    background-color: #CC8C2C;
+    color: #FFFFFF;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #C0392B;
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #DDD;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #34495E;
+    color: #FFFFFF;
+}
+
+tr:hover {
+    background-color: #F9F1E2;
+}
+
+/* Reduce general font size */
+body {
+    font-size: 14px;
+}
+
+/* Reduce padding and margins for a tighter look */
+.dashboard-container, .revenue-details, .data-points-container, .tasks-container {
+    padding: 5px;
+    margin: 15px 0;
+}
+
+
+
+.data-point, .total-revenue, .yearly-target, .completion-percentage {
+    padding: 5px;
+}
+
+/* Search Bar Styles */
+.search-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #F4F4F4;
+    width: 98%;
+}
+
+.search-bar input[type="text"] {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1.5px solid #CC8C2C;
+    margin-right: 10px;
+    flex-grow: 2;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.search-bar button {
+    background-color: #34495E;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.search-bar button:hover {
+    background-color: #CC8C2C;
+    transform: translateY(-3px);
+}
+
+/* Generic Table/List Styles */
+.table-list {
+    width: 70%;
+    margin: 20px auto;
+    border-collapse:

@@ -1,0 +1,368 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="{% static 'css/common.css' %}">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+<header>
+    <nav>
+        <div class="logo-container"><img src="{% static 'images/FUSED Talent Silver Logo 2400x1800.png' %}"
+                                         alt="FUSED Talent Logo"></div>
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'contacts' %}">Contacts</a></li>
+            <li><a href="{% url 'companies' %}">Companies</a></li>
+            <li><a href="{% url 'jobs' %}">Jobs</a></li>
+            <li><a href="{% url 'candidates' %}">Candidates</a></li>
+            <li><a href="{% url 'deals' %}">Deals</a></li>
+            <li><a href="{% url 'chatgpt' %}">ChatGPT</a></li>
+            <div class="flex-container"></div>
+            <button id="openNotepadBtn">Create Note (ctrl+N)</button>
+            <div id="notepadModal" class="notepad-modal">
+                <textarea id="noteTextarea" class="note-textarea"></textarea>
+                <button id="addNoteBtn">Add Note</button>
+                <button id="closeNotepadBtn">Close</button>
+                <div id="notesCount" class="notes-notification"></div>
+            </div>
+            <!-- Add more tabs as needed -->
+        </ul>
+    </nav>
+</header>
+<main class="main-content">
+    <div class="ticker-container">
+        <div class="ticker-wrapper">
+            <div class="ticker-transition">
+                <div class="ticker-item">“This is the HOME Page. You will be able to add anything, search for anything,
+                    overview your deals and manage your tasks...”
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="search-bar">
+        <input type="text" placeholder="Search...">
+        <button>Search</button>
+    </div>
+    <div class="container"></div>
+    <div class="top-of-page-container">
+        <div id="addModal" class="add-modal"></div>
+        <button onclick="addTask()">Add Task</button>
+        <button onclick="navigateToAddJob()">Add Job</button>
+        <button onclick="navigateToAddDeal()">Add Deal</button>
+        <button onclick="navigateToAddContact()">Add Contact</button>
+        <button onclick="navigateToAddCompany()">Add Company</button>
+        <button onclick="navigateToAddCandidate()">Add Candidate</button>
+        <button onclick="navigateToAddLead()">Add Lead</button>
+    </div>
+    <div>
+
+        <h3>PIPELINE / REVENUE</h3> <!-- This is the title for your table -->
+        <div class="container">
+            <table class="table-list">
+                </thead>
+                <tbody>
+                <tr class="table-header">
+                    <th class="contact-column">Pipeline</th>
+                    <th class="contact-column">Total # of Jobs</th>
+                    <th class="contact-column">Revenue</th>
+                    <th class="contact-column last-column">Goal</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="contact-column">$142,000</td>
+                    <td class="contact-column">4</td>
+                    <td class="contact-column">$22,500</td>
+                    <td class="contact-column">$180,000
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+    <h3>RECENTLY VISITED RECORDS</h3>
+    <div class="container">
+        <table class="table-list">
+            </thead>
+            <tr>
+                <th>Type</th>
+                <th>Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr data-record-type="client">
+                <td>Client</td>
+                <td><a href="#" class="record-link">Paul Sinclair</a></td>
+            </tr>
+            <tr data-record-type="contact">
+                <td>Contact</td>
+                <td><a href="#" class="record-link">Phil Haig</a></td>
+            </tr>
+            <tr data-record-type="company">
+                <td>Company</td>
+                <td><a href="#" class="record-link">AdhereTech</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    </section>
+    </tbody>
+
+    <script src="home.html"></script>
+    <h3>TO-DO LIST</h3>
+    <div class="container">
+        <table class="table-list" id="tasksTable">
+            <thead>
+            <tr class="table-header">
+                <th class="contact-column">Task Name</th>
+                <th class="contact-column">Owner</th>
+                <th class="contact-column last-column">Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="contact-column">Update Client Database</td>
+                <td class="contact-column">John Doe</td>
+                <td class="contact-column">
+                    <select name="stage" id="stage">
+                        <option value="Not Started">Not Started</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+            </tr>
+            <tr>
+                <td class="contact-column">Review Candidate Resumes</td>
+                <td class="contact-column">Jane Smith</td>
+                <td class="contact-column">
+                    <select name="stage" id="stage">
+                        <option value="Not Started">Not Started</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+            </tr>
+            <tr>
+                <td class="contact-column">Prepare for Client Meeting</td>
+                <td class="contact-column">Robert Brown</td>
+                <td class="contact-column">
+                    <select name="stage" class="task-status">
+                        <option value="Not Started">Not Started</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+            </tr>
+            <tr>
+                <td class="contact-column">Post New Job Listings</td>
+                <td class="contact-column">Emily Davis</td>
+                <td class="contact-column">
+                    <select name="stage" id="stage">
+                        <option value="Not Started">Not Started</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+            </tr>
+
+            <!-- ... (your tasks rows here) ... -->
+            </tbody>
+        </table>
+    </div>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            console.log("Document loaded"); // This should log when the page is fully loaded
+
+            // Check if the URL has the specific parameter
+            if (window.location.search.includes('openAddModal=true')) {
+                console.log("Trying to open the modal"); // This should log if the parameter is found
+                openAddCandidateModal();
+            }
+            // Floating component logic
+            const floatingComponent = document.querySelector('.floating-component');
+            let direction = 1; // 1 for up, -1 for down
+            let range = 5; // Range of movement in pixels
+            function floatComponent() {
+                let currentBottom = parseInt(getComputedStyle(floatingComponent).bottom);
+                if (currentBottom >= window.innerHeight * 0.1 + range || currentBottom <= window.innerHeight * 0.1 - range) {
+                    direction *= -1; // Reverse the direction
+                }
+                floatingComponent.style.transform = `translateY(${direction}px)`;
+            }
+
+            setInterval(floatComponent, 300); // Adjust the interval for faster/slower movement
+        });
+
+
+        document.getElementById('openNotepadBtn').addEventListener('click', function () {
+            document.getElementById('notepadModal').style.display = 'block';
+        });
+
+        document.getElementById('closeNotepadBtn').addEventListener('click', function () {
+            document.getElementById('notepadModal').style.display = 'none';
+        });
+
+        let notesCount = 0;
+        document.getElementById('addNoteBtn').addEventListener('click', function () {
+            notesCount++;
+            const notesCountDiv = document.getElementById('notesCount');
+            notesCountDiv.textContent = '+' + notesCount;
+            notesCountDiv.style.display = 'block';
+        });
+        document.addEventListener('keydown', function (e) {
+            // Check if the "Command" key (on Mac) or "Ctrl" key (on Windows/Linux) is pressed along with the "N" key
+            if ((e.metaKey || e.ctrlKey) && e.key === 'n') {
+                e.preventDefault(); // Prevent the default browser behavior (e.g., opening a new window)
+                openNotepadModal(); // Call the function that displays the notepad modal
+            }
+        });
+
+
+        function openNotepadModal() {
+            // Logic to display the notepad modal
+            const notepadModal = document.getElementById('notepadModal');
+            notepadModal.style.display = 'block';
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            document.addEventListener('keydown', function (e) {
+                if ((e.metaKey || e.ctrlKey) && e.key === 'n') {
+                    e.preventDefault();
+                    openNotepadModal();
+                }
+            });
+        });
+        document.addEventListener('keydown', function (e) {
+            console.log(e.key);  // This will log the key that's pressed
+            if ((e.metaKey || e.ctrlKey) && e.key === 'n') {
+                e.preventDefault();
+                openNotepadModal();
+            }
+        });
+
+        function openAddModal() {
+            const addModal = document.getElementById('addModal');
+            addModal.style.display = 'block';
+        }
+
+        document.getElementById('closeAddModalBtn').addEventListener('click', function () {
+            document.getElementById('addModal').style.display = 'none';
+        });
+
+        function openForm(formId) {
+            // Logic to open the respective form based on the formId
+            // For now, just closing the modal
+            document.getElementById('addModal').style.display = 'none';
+        }
+
+        function navigateToAddCandidate() {
+            // Navigate to the candidates page with a specific URL parameter
+            window.location.href = 'candidates.html?openAddModal=true';
+        }
+
+        // Check if the URL has the specific parameter
+        if (window.location.search.includes('openAddModal=true')) {
+            console.log("Trying to open the modal"); // This should log if the parameter is found
+            openAddCandidateModal();
+        }
+
+        function navigateToAddContact() {
+            // Navigate to the contacts page with a specific URL parameter
+            window.location.href = 'contacts.html?openAddContactModal=true';
+        }
+
+        document.getElementById('addContactBtn').addEventListener('click', navigateToAddContact);
+
+        // This function navigates to the companies page with a specific URL parameter
+        function navigateToAddCompany() {
+            window.location.href = 'companies.html?openAddCompanyModal=true';
+        }
+
+        // This function navigates to the deals page with a specific URL parameter
+        function navigateToAddDeal() {
+            window.location.href = 'deals.html?openAddDealModal=true';
+        }
+
+        function navigateToAddJob() {
+            window.location.href = 'jobs.html?openAddJobModal=true';
+        }
+
+        document.querySelectorAll('.record-link').forEach(function (link) {
+            link.addEventListener('click', function (event) {
+                event.preventDefault(); // Prevent default link behavior
+
+                // Get the record type from the parent row's data attribute
+                let recordType = event.target.closest('tr').getAttribute('data-record-type');
+
+                switch (recordType) {
+                    case 'contact':
+                        openProfileContactModal(); // Replace with the actual ID of Paul Sinclair's modal
+                        break;
+                    case 'candidate':
+                        openProfileCandidateModal(); // Replace with the actual ID of Phil Haig's modal
+                        break;
+                    case 'company':
+                        openProfileCompanyModal(); // Replace with the actual ID of AdhereTech's modal
+                        break;
+                }
+            });
+        });
+
+        document.getElementById('addTaskBtn').addEventListener('click', addTask);
+
+        // Add event listener to task status changes
+        document.querySelectorAll('.task-status').forEach(function (select) {
+            select.addEventListener('change', handleStatusChange);
+        });
+
+
+        function addTask() {
+            const tableBody = document.querySelector('#tasksTable tbody');
+            const newRow = document.createElement('tr');
+
+            newRow.innerHTML = `
+        <td class="contact-column"><input type="text" placeholder="Task Name"></td>
+        <td class="contact-column"><input type="text" placeholder="Owner"></td>
+        <td class="contact-column">
+            <select class="task-status"> 
+                <option value="Not Started">Not Started</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+            </select>
+        </td>
+    `;
+
+            tableBody.appendChild(newRow);
+
+            // Add event listener to the new task's status dropdown
+            newRow.querySelector('.task-status').addEventListener('change', handleStatusChange);
+        }
+
+        function handleStatusChange(event) {
+            if (event.target.value === 'Completed') {
+                // Track the completed task (optional)
+                const taskName = event.target.closest('tr').querySelector('td:first-child input').value;
+                const owner = event.target.closest('tr').querySelector('td:nth-child(2) input').value;
+                console.log(`Task "${taskName}" by ${owner} was completed.`);
+
+                // Delete the task from the table
+                event.target.closest('tr').remove();
+            }
+        }
+
+
+    </script>
+</main>
+</body>
+</html>

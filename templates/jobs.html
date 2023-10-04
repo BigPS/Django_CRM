@@ -1,0 +1,271 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jobs</title>
+    <link rel="stylesheet" href="{% static 'css/common.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo-container"><img src="{% static 'images/FUSED Talent Silver Logo 2400x1800.png' %}" alt="FUSED Talent Logo"></div>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'contacts' %}">Contacts</a></li>
+                <li><a href="{% url 'companies' %}">Companies</a></li>
+                <li><a href="{% url 'jobs' %}">Jobs</a></li>
+                <li><a href="{% url 'candidates' %}">Candidates</a></li>
+                <li><a href="{% url 'deals' %}">Deals</a></li>
+                <li><a href="{% url 'chatgpt' %}">ChatGPT</a></li>
+                <div class="flex-container"></div>
+                <button id="openNotepadBtn">Create Note (ctrl+N)</button>
+                <div id="notepadModal" class="notepad-modal">
+                    <textarea id="noteTextarea" class="note-textarea"></textarea>
+                    <button id="addNoteBtn">Add Note</button>
+                    <button id="closeNotepadBtn">Close</button>
+                    <div id="notesCount" class="notes-notification"></div>
+                </div>
+                <!-- Add more tabs as needed -->
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="ticker-container">
+            <div class="ticker-wrapper">
+                <div class="ticker-transition">
+                    <div class="ticker-item">Revenue: $22,500</div>
+                    <div class="ticker-item">Goal: $100,000</div>
+                    <div class="ticker-item">Percentage: 20%</div>
+                    <div class="ticker-item">**OTHER COMPANY ANNOUNCMENTS**</div>
+                </div>
+            </div>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Search...">
+            <button>Search</button>
+            <button onclick="openModal('jobModal')">Add Job</button>
+        </div>
+
+        </div>
+                <h3>ACTIVE JOBS</h3> <!-- This is the title for your table -->
+                <div class="container tasks-container">
+                <table class="table-list">
+                    <thead>
+                        <tr class="table-header">
+                            <th class="contact-column">Job Title</th>
+                            <th class="contact-column">Location</th>
+                            <th class="contact-column">Fee Value</th>
+                            <th class="contact-column">Company</th>
+                            <th class="contact-column">Stage</th>
+                            <th class="contact-column last-column">Option</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="table-row">
+                            <td class="contact-column"><a href="javascript:void(0)" onclick="openKanbanModal('Marketing Manager')">Marketing Manager</a></td>
+                            <td class="contact-column">San Diego</td>
+                            <td class="contact-column">$20,000</td>
+                            <td class="contact-column">Orchyd</td>
+                            <td class="contact-column">
+                                <select name="stage" id="stage">
+                                    <option value="comingSoon">Coming Soon</option>
+                                    <option value="outbound">Outbound</option>
+                                    <option value="1stRound">1st Round</option>
+                                    <option value="2ndRound">2nd Round</option>
+                                    <option value="panel">Panel</option>
+                                    <option value="final">Final</option>
+                                    <option value="offer">Offer</option>
+                                    <option value="onHold">On Hold</option>
+                                </select>
+                            <td class="contact-column"> <button>Edit</button>
+                                <button>Delete</button>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr class="table-row">
+                            <td class="contact-column"><a href="javascript:void(0)" onclick="openKanbanModal('Director Business Development')">Director Business Development</a></td>
+                            <td class="contact-column">Texas</td>
+                            <td class="contact-column">$25,000</td>
+                            <td class="contact-column">Fooda</td>
+                            <td class="contact-column">
+                                <select name="stage" id="stage">
+                                    <option value="comingSoon">Coming Soon</option>
+                                    <option value="outbound">Outbound</option>
+                                    <option value="1stRound">1st Round</option>
+                                    <option value="2ndRound">2nd Round</option>
+                                    <option value="panel">Panel</option>
+                                    <option value="final">Final</option>
+                                    <option value="offer">Offer</option>
+                                    <option value="onHold">On Hold</option>
+                                </select>
+                            <td class="contact-column"> <button>Edit</button>
+                                <button>Delete</button>
+                        <!-- ... (your other rows here) ... -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="modal" id="jobModal">
+                <div class="modal-content">
+                    <span class="close-btn" id="closeModal">&times;</span>
+                    <h2>Add Job</h2>
+                    <div class="container tasks-container">
+                    <form>
+                        <div class="form-group">
+                            <label for="jobTitle">Job Title:</label>
+                            <input type="text" class="form-control" id="jobTitle" placeholder="Enter Job Title">
+                        </div>
+                        <div class="form-group">
+                            <label for="feeValue">Fee Value:</label>
+                            <input type="text" class="form-control" id="feeValue" placeholder="Enter Fee Value">
+                        </div>
+                        <div class="form-group">
+                            <label for="salary">Salary:</label>
+                            <input type="text" class="form-control" id="salary" placeholder="Enter Salary">
+                        </div>
+                        <div class="form-group">
+                            <label for="company">Company:</label>
+                            <input type="text" class="form-control" id="company" placeholder="Enter Company">
+                        </div>
+                        <div class="form-group">
+                            <label for="contact">Contact:</label>
+                            <input type="text" class="form-control" id="contact" placeholder="Enter Contact">
+                        </div>
+                        <button type="button" id="saveJob">Save Job</button>
+                    </form>
+                </div>
+            </div>
+            
+            
+            <div class="modal profile-modal" id="kanbanModal">
+                <div class="modal-content">
+                    <span class="close-btn" id="closeKanbanModal">&times;</span>
+                    <div class="container tasks-container">
+                        <h2>Interview Pipeline for [Job Name]</h2>
+            
+                <div class="kanban-board table-list">
+                    <div class="kanban-column table-column">
+                        <h3 class="table-header">Submitted</h3>
+                        <div class="candidate-card table-row" draggable="true">John Doe</div>
+                        <div class="candidate-card table-row" draggable="true">Jane Smith</div>
+                    </div>
+            
+                    <div class="kanban-column table-column">
+                        <h3 class="table-header">1st Round</h3>
+                        <!-- Draggable candidate cards will go here -->
+                    </div>
+            
+                    <div class="kanban-column table-column">
+                        <h3 class="table-header">Panel</h3>
+                        <!-- Draggable candidate cards will go here -->
+                    </div>
+            
+                    <div class="kanban-column table-column">
+                        <h3 class="table-header">Final</h3>
+                        <!-- Draggable candidate cards will go here -->
+                    </div>
+                </div>
+</div>
+   
+            
+
+
+<script>
+function openModal(modalId) {
+    document.getElementById(modalId).style.display = 'block';
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).style.display = 'none';
+}
+
+document.getElementById('closeModal').addEventListener('click', function() {
+    closeModal('jobModal');
+});
+
+document.getElementById('saveJob').addEventListener('click', function() {
+    // Here, you can also add any logic to save the job details if needed.
+    closeModal('jobModal');
+});
+
+function openKanbanModal(jobTitle) {
+    // Update the modal title based on the job
+    document.querySelector('#kanbanModal h2').textContent = `Interview Pipeline for ${jobTitle}`;
+    document.getElementById('kanbanModal').style.display = 'block';
+}
+
+document.getElementById('closeKanbanModal').addEventListener('click', function() {
+    closeModal('kanbanModal');
+});
+
+// Example usage:
+// openModal('addJobModal');
+// closeModal('addJobModal');
+
+// Get all the candidate cards and columns
+let cards = document.querySelectorAll('.candidate-card');
+let columns = document.querySelectorAll('.kanban-column');
+
+// Add drag and drop events to each card
+cards.forEach(card => {
+card.addEventListener('dragstart', dragStart);
+card.addEventListener('dragend', dragEnd);
+});
+
+// Add drag over and drop events to each column
+columns.forEach(column => {
+column.addEventListener('dragover', dragOver);
+column.addEventListener('drop', drop);
+});
+
+function dragStart(e) {
+setTimeout(() => {
+e.target.classList.add('invisible');
+}, 0);
+}
+
+function dragEnd(e) {
+e.target.classList.remove('invisible');
+}
+
+function dragOver(e) {
+e.preventDefault();
+}
+
+function drop(e) {
+e.target.appendChild(document.querySelector('.invisible'));
+}
+function openAddJobModal() {
+    const addDealModal = document.getElementById('JobModal'); 
+    addJobModal.style.display = 'block';
+}
+document.addEventListener('DOMContentLoaded', function() {
+    checkURLAndOpenJobModal();
+});
+
+function openAddJobModal() {
+    const addJobModal = document.getElementById('jobModal'); 
+    addJobModal.style.display = 'block';
+}
+
+function checkURLAndOpenJobModal() {
+    if (window.location.search.includes('openAddJobModal=true')) {
+        openAddJobModal();
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    checkURLAndOpenJobModal();
+});
+
+</script>
+</body>
+
+</html>

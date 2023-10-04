@@ -1,0 +1,293 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Companies</title>
+    <link rel="stylesheet" href="{% static 'css/common.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo-container"><img src="{% static 'images/FUSED Talent Silver Logo 2400x1800.png' %}" alt="FUSED Talent Logo"></div>
+            <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'contacts' %}">Contacts</a></li>
+            <li><a href="{% url 'companies' %}">Companies</a></li>
+            <li><a href="{% url 'jobs' %}">Jobs</a></li>
+            <li><a href="{% url 'candidates' %}">Candidates</a></li>
+            <li><a href="{% url 'deals' %}">Deals</a></li>
+            <li><a href="{% url 'chatgpt' %}">ChatGPT</a></li>
+                <div class="flex-container"></div>
+                <button id="openNotepadBtn">Create Note (ctrl+N)</button>
+                <div id="notepadModal" class="notepad-modal">
+                    <textarea id="noteTextarea" class="note-textarea"></textarea>
+                    <button id="addNoteBtn">Add Note</button>
+                    <button id="closeNotepadBtn">Close</button>
+                    <div id="notesCount" class="notes-notification"></div>
+                </div>
+                <!-- Add more tabs as needed -->
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="ticker-container">
+            <div class="ticker-wrapper">
+                <div class="ticker-transition">
+                    <div class="ticker-item">Revenue: $22,500</div>
+                    <div class="ticker-item">Goal: $100,000</div>
+                    <div class="ticker-item">Percentage: 20%</div>
+                    <div class="ticker-item">**OTHER COMPANY ANNOUNCMENTS**</div>
+                </div>
+            </div>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Search...">
+            <button>Search</button>
+            <button id="addCompanyButton">Add Company</button>
+        </div>
+
+
+
+        <h3>COMPANIES</h3>
+        <div class="container tasks-container">
+            <table class="table-list">
+                <thead>
+                    <tr class="table-header">
+                        <th class="contact-column">Company</th>
+                        <th class="contact-column">Industry</th>
+                        <th class="contact-column">Website</th>
+                        <th class="contact-column">Location</th>
+                    </tr>
+                </thead>
+                <tbody id="companiesTableBody">
+                    <!-- Data will be dynamically inserted here using JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+
+        <!-- Add Company Modal -->
+<div class="modal" id="companyModal">
+    <div class="modal-content">
+        <span class="close-btn" id="closeCompanyModal">&times;</span>
+        <h2>Add Company</h2>
+        <div class="container">
+            <form action="/companies" method="POST">
+                <div class="form-group">
+                <label for="companyName">Company Name:</label>
+                <input type="text" class="form-control" id="companyName" placeholder="Enter Company Name" required>
+            </div>
+            <div class="form-group">
+                <label for="industry">Industry:</label>
+                <input type="text" class="form-control" id="industry" placeholder="Enter Industry" required>
+            </div>
+            <div class="form-group">
+                <label for="location">Location:</label>
+                <input type="text" class="form-control" id="location" placeholder="Enter Location" required>
+            </div>
+            <div class="form-group">
+                <label for="website">Website:</label>
+                <input type="text" class="form-control" id="website" placeholder="Enter Website URL">
+            </div>
+            <button type="submit" id="saveCompany">Save Company</button>
+        </form>
+    </div>
+</div>
+    <!-- Company Profile Modal -->
+    <div class="modal profile-modal" id="profileCompanyModal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeCompanyProfileModal">&times;</span>
+            <h2>Company Details</h2>
+            <div class="container">
+                <div class="form-group">
+                    <label>Company Name:</label>
+                    <p id="companyNameDisplay"></p>
+                </div>
+                <div class="form-group">
+                    <label>Industry:</label>
+                    <p id="industryDisplay"></p>
+                </div>
+                <div class="form-group">
+                    <label>Location:</label>
+                    <p id="locationDisplay"></p>
+                </div>
+                <div class="form-group">
+                    <label>Website:</label>
+                    <p id="websiteDisplay"></p>
+                </div>
+                <div class="form-group">
+                    <label>Contact(s):</label>
+                    <p id="contactDisplay"></p>
+                </div>
+                <div class="form-group">
+                    <label>About Company:</label>
+                    <p id="aboutDisplay"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+// Function to open a modal
+function openModal(modalId) {
+    document.getElementById(modalId).style.display = 'block';
+}
+
+// Function to close a modal
+function closeModal(modalId) {
+    document.getElementById(modalId).style.display = 'none';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Event listener for the "Add Company" button
+    document.querySelector('#addCompanyButton').addEventListener('click', function() {
+        openModal('companyModal');
+    });
+
+    // Event listener for the close button on the company modal
+    document.querySelector('#closeCompanyModal').addEventListener('click', function() {
+        closeModal('companyModal');
+    });
+
+    // Event listener for the close button on the company profile modal
+    document.querySelector('#closeCompanyProfileModal').addEventListener('click', function() {
+        closeModal('profileCompanyModal');
+    });
+
+    // Event listener for the "Save Company" button to close the modal
+    document.querySelector('#saveCompany').addEventListener('click', function() {
+        closeModal('companyModal');
+    });
+     // Event listener for the "Save Company" button to add the company to the table
+     document.querySelector('#saveCompany').addEventListener('click', addCompanyToTable);
+});
+
+
+function addCompanyToTable() {
+    // Get the form values
+    var companyName = document.getElementById("companyName").value;
+    var industry = document.getElementById("industry").value;
+    var location = document.getElementById("location").value;
+    var website = document.getElementById("website").value;
+
+    // Get the table's tbody (assuming the table has a class name of "table-list")
+    var tableBody = document.querySelector(".table-list tbody");
+
+    // Create a new row
+    var newRow = tableBody.insertRow();
+
+    // Add the data to the new row
+    newRow.innerHTML = `
+        <td><a href="#" class="company-name">${companyName}</a></td>
+        <td>${industry}</td>
+        <td>${location}</td>
+        <td>${website}</td>
+    `;
+
+    // Clear the form
+    document.querySelector('#companyModal form').reset();
+
+    // Close the modal
+    closeModal('companyModal');
+}
+
+// Open the company profile modal when a company name is clicked
+document.addEventListener('click', function(event) {
+    if (event.target.classList.contains('company-name')) {
+        // ... (rest of your code for this function remains unchanged)
+
+        openModal('profileCompanyModal');
+    }
+});
+
+// Event listener to close the modal when clicking outside of it
+window.addEventListener('click', function(event) {
+    if (event.target == document.getElementById('profileCompanyModal')) {
+        closeModal('profileCompanyModal');
+    }
+});
+
+document.getElementById('openNotepadBtn').addEventListener('click', function() {
+    document.getElementById('notepadModal').style.display = 'block';
+});
+
+document.getElementById('closeNotepadBtn').addEventListener('click', function() {
+    document.getElementById('notepadModal').style.display = 'none';
+});
+
+let notesCount = 0;
+document.getElementById('addNoteBtn').addEventListener('click', function() {
+    notesCount++;
+    const notesCountDiv = document.getElementById('notesCount');
+    notesCountDiv.textContent = '+' + notesCount;
+    notesCountDiv.style.display = 'block';
+});
+document.addEventListener('keydown', function(e) {
+    // Check if the "Command" key (on Mac) or "Ctrl" key (on Windows/Linux) is pressed along with the "N" key
+    if ((e.metaKey || e.ctrlKey) && e.key === 'n') {
+        e.preventDefault(); // Prevent the default browser behavior (e.g., opening a new window)
+        openNotepadModal(); // Call the function that displays the notepad modal
+    }
+});
+
+function openNotepadModal() {
+    // Logic to display the notepad modal
+    const notepadModal = document.getElementById('notepadModal');
+    notepadModal.style.display = 'block';
+}
+function openAddCompanyModal() {
+    const addCompanyModal = document.getElementById('companyModal'); // Assuming the modal's ID is 'companyModal'
+    addCompanyModal.style.display = 'block';
+}
+document.addEventListener('DOMContentLoaded', function() {
+    checkURLAndOpenCompanyModal();
+});
+
+function checkURLAndOpenCompanyModal() {
+    if (window.location.search.includes('openAddCompanyModal=true')) {
+        openAddCompanyModal();
+    }
+}
+// ... (Your existing script)
+
+// Fetch companies from the server when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('/companies')
+    .then(response => response.json())
+    .then(data => {
+        const tableBody = document.getElementById("companiesTableBody");
+        data.forEach(company => {
+            const newRow = tableBody.insertRow();
+            newRow.innerHTML = `
+                <td class="contact-column">
+                    <a href="#" class="company-name"
+                       data-name="${company.name}"
+                       data-industry="${company.industry}"
+                       data-location="${company.location}"
+                       data-website="${company.website}">
+                       ${company.name}
+                    </a>
+                </td>
+                <td class="contact-column">${company.industry}</td>
+                <td class="contact-column">${company.website}</td>
+                <td class="contact-column">${company.location}</td>
+            `;
+        });
+    })
+    .catch(error => {
+        console.error("Error fetching companies:", error);
+    });
+});
+</script>
+</body>
+</html>
+
+
+  

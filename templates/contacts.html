@@ -1,0 +1,320 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacts</title>
+    <link rel="stylesheet" href="{% static 'css/common.css' %}"> <!-- Use the static tag for local static files -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo-container"><img src="{% static 'images/FUSED Talent Silver Logo 2400x1800.png' %}" alt="FUSED Talent Logo"></div>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'contacts' %}">Contacts</a></li>
+                <li><a href="{% url 'companies' %}">Companies</a></li>
+                <li><a href="{% url 'jobs' %}">Jobs</a></li>
+                <li><a href="{% url 'candidates' %}">Candidates</a></li>
+                <li><a href="{% url 'deals' %}">Deals</a></li>
+                <li><a href="{% url 'chatgpt' %}">ChatGPT</a></li>
+                <div class="flex-container"></div>
+                <button id="openNotepadBtn">Create Note (ctrl+N)</button>
+                <div id="notepadModal" class="notepad-modal">
+                    <textarea id="noteTextarea" class="note-textarea"></textarea>
+                    <button id="addNoteBtn">Add Note</button>
+                    <button id="closeNotepadBtn">Close</button>
+                    <div id="notesCount" class="notes-notification"></div>
+                </div>
+                <!-- Add more tabs as needed -->
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="ticker-container">
+            <div class="ticker-wrapper">
+                <div class="ticker-transition">
+                    <div class="ticker-item">Revenue: $22,500</div>
+                    <div class="ticker-item">Goal: $100,000</div>
+                    <div class="ticker-item">Percentage: 20%</div>
+                    <div class="ticker-item">**OTHER COMPANY ANNOUNCMENTS**</div>
+                </div>
+            </div>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Search...">
+            <button>Search</button>
+            <button>Advanced Search</button>
+            <button onclick="openContactModal()">Add Contact</button>
+        </div>
+
+        <h3>CONTACTS</h3> <!-- This is the title for your table -->
+
+                                <div class="container tasks-container">
+                                    <table class="table-list">
+                                        <thead>
+                                            <tr class="table-header">
+                                                <th class="contact-column">Name</th>
+                                                <th class="contact-column">Company</th>
+                                                <th class="contact-column">Role</th>
+                                                <th class="contact-column">Industry</th>
+                                                <th class="contact-column">Email</th>
+                                                <th class="contact-column last-column">LinkedIn</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="table-row">
+                                                <td><a href="#" class="contact-name" data-name="Paul Sinclair" data-email="paul@fusedtalent.com">Paul Sinclair</a></td>
+                                                <td class="contact-column">FUSED Talent</td>
+                                                <td class="contact-column">CEO</td>
+                                                <td class="contact-column">SportsTech</td>
+                                                <td class="contact-column">paul@fusedtalent.com</td>
+                                                <td class="contact-column"><a href="https://www.linkedin.com/in/paulbsinclair/">LinkedIn Profile</a></td>
+                                            </tr>
+                                            <tr class="table-row">
+                                                <td><a href="#" class="contact-name" data-name="Phil Haig" data-email="phil@fusedtalent.com">Phil Haig</a></td>
+                                                <td class="contact-column">FUSED Talent</td>
+                                                <td class="contact-column">Head of Partnerships, SportsTech</td>
+                                                <td class="contact-column">SportsTech</td>
+                                                <td class="contact-column">phil@fusedtalent.com</td>
+                                                <td class="contact-column"><a href="https://www.linkedin.com/in/philhaig/">LinkedIn Profile</a></td>
+                                            </tr>
+                                            <!-- ... (your other rows here) ... -->
+                                        </tbody>
+                                    </table>
+                                </div>
+            <!-- Add Contact Modal -->
+<div class="modal" id="contactModal">
+    <div class="modal-content">
+        <span class="close-btn" id="closeContactModal">&times;</span>
+        <h2>Add Contact</h2>
+        <div class="container tasks-container">
+            <form action="add_contact.php" method="post">
+                <div class="form-group">
+                <label for="contact-Name">Name:</label>
+                <input type="text" class="form-control" id="contact-Name" placeholder="Enter Name">
+            </div>
+            <div class="form-group">
+                <label for="contactCompany">Company:</label>
+                <input type="text" class="form-control" id="contactCompany" placeholder="Enter Company">
+            </div>
+            <div class="form-group">
+                <label for="contactRole">Role:</label>
+                <input type="text" class="form-control" id="contactRole" placeholder="Enter Role">
+            </div>
+            <div class="form-group">
+                <label for="contactIndustry">Industry:</label>
+                <input type="text" class="form-control" id="contactIndustry" placeholder="Enter Industry">
+            </div>
+            <div class="form-group">
+                <label for="contactEmail">Email:</label>
+                <input type="email" class="form-control" id="contactEmail" placeholder="Enter Email">
+            </div>
+            <div class="form-group">
+                <label for="contactLinkedIn">LinkedIn:</label>
+                <input type="url" class="form-control" id="contactLinkedIn" placeholder="Enter LinkedIn Profile URL">
+            </div>
+
+            <div class="search-bar">
+                <button type="button" onclick="addContactToTable()">Save</button>
+            </div>        
+            </form>
+    </div>
+</div>
+    <!-- Contact Profile Modal -->
+    <div class="modal profile-modal" id="profileContactModal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Contact Details</h2>
+            <div class="container tasks-container">
+            <!-- Display contact details here -->
+            <div class="form-group">
+                <label>Name:</label>
+                <p id="contactNameDisplay"></p>
+            </div>
+            <div class="form-group">
+                <label>Title:</label>
+                <p id="contacttitleDisplay"></p>
+            </div>
+            <div class="form-group">
+                <label>Company:</label>
+                <p id="contactcompanyDisplay"></p>
+            </div>
+            <div class="form-group">
+                <label>Email:</label>
+                <p id="contactEmailDisplay"></p>
+            </div>
+            <div class="form-group">
+                <label>Phone Number:</label>
+                <p id="contactphonenumberDisplay"></p>
+            </div>
+            <div class="form-group">
+                <label>Location:</label>
+                <p id="contactlocationDisplay"></p>
+            </div>
+            <div class="form-group">
+                <label>Linkedin:</label>
+                <p id="contactlinkedinDisplay"></p>
+            </div>
+        </section> 
+        <div class="notes-section">
+            <h2>Notes</h2>
+            <ul id="notesList">
+                <!-- Existing notes will be displayed here -->
+            </ul>
+            <textarea class="form-control" id="contactNotes" rows="4" placeholder="Add notes here"></textarea>
+            <button onclick="addNote()">Add Note</button>
+        </div>
+            <div class="search-bar">
+            <button>Edit</button>
+            <button>Save</button>
+            <button>Message</button>
+            </div>
+            <!-- Add more details as needed -->
+        </div>
+    </div>
+     <div class="container">
+            <button id="openNotepadBtn">Open Notepad (ctrl+N)</button>
+            <div id="notepadModal" class="notepad-modal">
+                <textarea id="noteTextarea" class="note-textarea"></textarea>
+                <button id="addNoteBtn">Add Note</button>
+                <button id="closeNotepadBtn">Close</button>
+                <div id="notesCount" class="notes-notification"></div>
+            </div>
+    </main>
+</body>
+
+</html>
+
+<script>
+// Function to open a modal
+function openModal(modalId) {
+    document.getElementById(modalId).style.display = 'block';
+}
+
+// Function to close a modal
+function closeModal(modalId) {
+    document.getElementById(modalId).style.display = 'none';
+}
+
+// Open the contact profile modal when a contact name is clicked
+document.addEventListener('click', function(event) {
+    if (event.target.classList.contains('contact-name')) {
+        var row = event.target.closest('tr');
+        var name = row.querySelector('.contact-name').getAttribute('data-name');
+        var email = row.querySelector('.contact-name').getAttribute('data-email');
+        var company = row.cells[1].textContent;
+        var role = row.cells[2].textContent;
+        var industry = row.cells[3].textContent;
+        var linkedIn = row.cells[5].querySelector('a').href;
+
+        document.getElementById('contactNameDisplay').textContent = name;
+        document.getElementById('contactEmailDisplay').textContent = email;
+        document.getElementById('contactcompanyDisplay').textContent = company;
+        document.getElementById('contacttitleDisplay').textContent = role;
+        document.getElementById('contactlinkedinDisplay').textContent = linkedIn;
+
+        openModal('profileContactModal');
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelector('.search-bar button[onclick="openContactModal()"]').addEventListener('click', function() {
+        openModal('contactModal');
+    });
+
+    document.querySelector('#closeContactModal').addEventListener('click', function() {
+        closeModal('contactModal');
+    });
+
+    document.querySelector('#profileContactModal .close-btn').addEventListener('click', function() {
+        closeModal('profileContactModal');
+    });
+
+    document.querySelector('#contactModal button[type="button"]').addEventListener('click', addContactToTable);
+});
+
+window.addEventListener('click', function(event) {
+    if (event.target == document.getElementById('profileContactModal')) {
+        closeModal('profileContactModal');
+    }
+    if (event.target == document.getElementById('contactModal')) {
+        closeModal('contactModal');
+    }
+});
+
+function addContactToTable() {
+    var name = document.getElementById("contactName").value;
+    var company = document.getElementById("contactCompany").value;
+    var role = document.getElementById("contactRole").value;
+    var industry = document.getElementById("contactIndustry").value;
+    var email = document.getElementById("contactEmail").value;
+    var linkedIn = document.getElementById("contactLinkedIn").value;
+  
+    var tableBody = document.querySelector(".table-list tbody");
+    var newRow = tableBody.insertRow();
+
+    newRow.innerHTML = `
+        <td><a href="#" class="contact-name" data-name="${name}" data-email="${email}">${name}</a></td>
+        <td class="contact-column">${company}</td>
+        <td class="contact-column">${role}</td>
+        <td class="contact-column">${industry}</td>
+        <td class="contact-column">${email}</td>
+        <td class="contact-column"><a href="${linkedIn}">LinkedIn Profile</a></td>
+    `;
+
+    document.querySelector('#contactModal form').reset();
+    closeModal('contactModal');
+}
+
+document.getElementById('openNotepadBtn').addEventListener('click', function() {
+    document.getElementById('notepadModal').style.display = 'block';
+});
+
+document.getElementById('closeNotepadBtn').addEventListener('click', function() {
+    document.getElementById('notepadModal').style.display = 'none';
+});
+
+let notesCount = 0;
+document.getElementById('addNoteBtn').addEventListener('click', function() {
+    notesCount++;
+    const notesCountDiv = document.getElementById('notesCount');
+    notesCountDiv.textContent = '+' + notesCount;
+    notesCountDiv.style.display = 'block';
+});
+
+document.addEventListener('keydown', function(e) {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'n') {
+        e.preventDefault();
+        openNotepadModal();
+    }
+});
+
+function openNotepadModal() {
+    const notepadModal = document.getElementById('notepadModal');
+    notepadModal.style.display = 'block';
+}
+
+function openAddContactModal() {
+    const addContactModal = document.getElementById('addContactModal');
+    addContactModal.style.display = 'block';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    checkURLAndOpenContactModal();
+});
+
+function checkURLAndOpenContactModal() {
+    if (window.location.search.includes('openAddContactModal=true')) {
+        openAddContactModal();
+    }
+}
+
+</script>
+</body>
+</html>

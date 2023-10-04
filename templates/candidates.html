@@ -1,0 +1,463 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidates</title>
+    <link rel="stylesheet" href="{% static 'css/common.css' %}"> <!-- Use the static tag for local static files -->
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Include external libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.568/pdf.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.568/pdf.worker.js"></script>
+
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="logo-container"><img src="{% static 'images/FUSED Talent Silver Logo 2400x1800.png' %}" alt="FUSED Talent Logo"></div>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'contacts' %}">Contacts</a></li>
+                <li><a href="{% url 'companies' %}">Companies</a></li>
+                <li><a href="{% url 'jobs' %}">Jobs</a></li>
+                <li><a href="{% url 'candidates' %}">Candidates</a></li>
+                <li><a href="{% url 'deals' %}">Deals</a></li>
+                <li><a href="{% url 'chatgpt' %}">ChatGPT</a></li>
+                <div class="flex-container"></div>
+                <button id="openNotepadBtn">Create Note (ctrl+N)</button>
+                <div id="notepadModal" class="notepad-modal">
+                    <textarea id="noteTextarea" class="note-textarea"></textarea>
+                    <button id="addNoteBtn">Add Note</button>
+                    <button id="closeNotepadBtn">Close</button>
+                    <div id="notesCount" class="notes-notification"></div>
+                </div>
+                <!-- Add more tabs as needed -->
+            </ul>
+        </nav>
+    </header>
+
+        <main class="main-content">
+            <div class="ticker-container">
+                <div class="ticker-wrapper">
+                    <div class="ticker-transition">
+                        <div class="ticker-item">Revenue: $22,500</div>
+                        <div class="ticker-item">Goal: $100,000</div>
+                        <div class="ticker-item">Percentage: 20%</div>
+                        <div class="ticker-item">**OTHER COMPANY ANNOUNCMENTS**</div>
+                    </div>
+                </div>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search...">
+                <button>Search</button>
+                <button>Advanced Search</button>
+                <button onclick="openAddCandidateModal()">Add Candidate</button>
+            </div>
+
+            <h3>CANDIDATES</h3>
+            <div class="container tasks-container">
+                <table class="table-list">
+                    <thead>
+                        <tr>
+                            <th>Action</th>
+                            <th>Name</th>
+                            <th>Company</th>
+                            <th>Title</th>
+                            <th>Industry</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><button onclick="openProfileCandidateModal(this.parentElement.parentElement)">View</button></td>
+                            <td>Paul Sinclair</td>
+                            <td>FUSED Talent</td>
+                            <td>Founder & CEO</td>
+                            <td>Recruiting</td>
+                            <td>paul@fusedtalent.com</td>
+                        </tr>
+                        <tr>
+                            <td><button onclick="openProfileCandidateModal(this.parentElement.parentElement)">View</button></td>
+                            <td>Jane Smith</td>
+                            <td>XYZ Corp.</td>
+                            <td>Data Scientist</td>
+                            <td>Data</td>
+                            <td>jane@example.com</td>
+                        </tr>
+                        <!-- ... (more rows for other candidates) ... -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Add more candidate cards as needed -->
+        </div>
+
+<!-- Add Candidate Modal -->
+<div class="modal" id="addcandidateModal">
+    <div class="modal-content">
+        <span class="close-btn" id="closeaddCandidateModal">&times;</span>
+        <h2>Add Candidate</h2>
+        <div class="container tasks-container">
+            <div class="drag-drop-area" id="dragDropArea">
+                <p>Drag & Drop Resume Here</p>
+                <input type="file" id="candidateResume" style="display: none;">
+                <label for="candidateResume" class="browse-btn">or Browse...</label>
+            </div>
+            <div class="form-group">
+                <label for="candidateName">Name:</label>
+                <input type="text" class="form-control" id="candidateName" placeholder="Enter Name">
+            </div>
+            <div class="form-group">
+                <label for="candidateRole">Role:</label>
+                <input type="text" class="form-control" id="candidateRole" placeholder="Enter Role">
+            </div>
+            <div class="form-group">
+                <label for="candidateIndustry">Industry:</label>
+                <input type="text" class="form-control" id="candidateIndustry" placeholder="Enter Industry">
+            </div>
+            <div class="form-group">
+                <label for="candidateEmail">Email:</label>
+                <input type="email" class="form-control" id="candidateEmail" placeholder="Enter Email">
+            </div>
+            <div class="search-bar">
+                <button id="btnAddCandidateToTable">Add Candidate</button>
+                <button>Add to Job</button>
+            </div>       
+        </form>
+    </div>
+</div>
+
+    </div>
+</div>
+
+<!-- Candidate Profile Modal -->
+<div class="modal profile-modal" id="profileCandidateModal">
+    <div class="modal-content">
+        <span class="close-btn" id="closeprofileCandidateModal">&times;</span>
+        <div class="container tasks-container">
+            <h2>Paul Sinclair</h2>
+            <section class="candidate-basic-info">
+                <div class="search-bar">
+                    <button>Edit/Update</button>
+                    <button>Add to Job</button>
+                    <button>Message</button>
+                    <button>Send to Client</button>
+                    </div>
+            </section>
+            <div class="flex-container">
+                <!-- Candidate Image and Basic Info -->
+                <section class="candidate-basic-info">
+                        <img src="images/Paul .png" alt="Candidate Image">
+                </section>
+                <table class="table-list">
+                    <thead>
+                        <tr>
+                            <th>Company</th>
+                            <th>Role</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>FUSED Talent</td>
+                            <td>Founder & CEO</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+
+            </section>
+                        <!-- Resume and Summary -->
+            <section class="resume-summary">
+                <h3>Resume & Summary</h3>
+                <a href="path_to_resume.pdf" target="_blank">View Resume</a>
+                <p>Summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum.</p>
+            </section> 
+            <div class="notes-section">
+                <h2>Notes</h2>
+                <ul id="notesList">
+                    <!-- Existing notes will be displayed here -->
+                </ul>
+                <textarea class="form-control" id="contactNotes" rows="4" placeholder="Add notes here"></textarea>
+                <button onclick="addNote()">Add Note</button>
+            </div>
+            
+            </div>                
+        </div>                    
+            <!-- Flex Container ends here -->    
+        
+
+<script>
+// Get modal elements
+var addCandidateModal = document.getElementById('addcandidateModal');
+var profileCandidateModal = document.getElementById('profileCandidateModal');
+
+// Get close button elements
+var closeAddCandidateModalBtn = document.getElementById('closeaddCandidateModal');
+var closeProfileCandidateModalBtn = document.getElementById('closeprofileCandidateModal');
+
+// Open modals
+function openAddCandidateModal() {
+    addCandidateModal.style.display = 'block';
+}
+
+function openProfileCandidateModal(row) {
+    profileCandidateModal.style.display = 'block';
+    
+    if(row) {
+        var cells = row.cells;
+
+        // Fetching data from the clicked row
+        var candidateName = cells[1].textContent;
+        var candidateCompany = cells[2].textContent;
+        var candidateRole = cells[3].textContent;
+        var candidateIndustry = cells[4].textContent;
+        var candidateEmail = cells[5].textContent;
+
+        // Selecting elements from the modal to update
+        var modalTitle = document.querySelector('#profileCandidateModal h2');
+        var modalImage = document.querySelector('#profileCandidateModal img');
+        var modalCompanyRoleTable = document.querySelector('#profileCandidateModal .table-list tbody');
+        var modalEmailPhoneLocationTable = document.querySelector('#profileCandidateModal + .table-list tbody');
+
+        // Updating the modal's content
+        modalTitle.textContent = candidateName;
+        modalImage.src = "images/" + candidateName + ".png"; // Assuming you have images named by candidate names
+        modalCompanyRoleTable.innerHTML = `
+            <tr>
+                <td>${candidateCompany}</td>
+                <td>${candidateRole}</td>
+            </tr>
+        `;
+        modalEmailPhoneLocationTable.innerHTML = `
+            <tr>
+                <td>${candidateEmail}</td>
+                <td>Placeholder Phone</td> <!-- Need to get actual phone data -->
+                <td>Placeholder Location</td> <!-- Need to get actual location data -->
+            </tr>
+        `;
+    }
+}
+
+// Close modals
+function closeAddCandidateModal() {
+    addCandidateModal.style.display = 'none';
+}
+
+function closeProfileCandidateModal() {
+    profileCandidateModal.style.display = 'none';
+}
+
+// Add event listeners for close buttons
+closeAddCandidateModalBtn.addEventListener('click', closeAddCandidateModal);
+closeProfileCandidateModalBtn.addEventListener('click', closeProfileCandidateModal);
+
+// Close modals when clicking outside of them
+window.addEventListener('click', function(event) {
+    if (event.target == addCandidateModal) {
+        closeAddCandidateModal();
+    }
+    if (event.target == profileCandidateModal) {
+        closeProfileCandidateModal();
+    }
+});
+
+// Add Candidate to Table
+function addCandidateToTable(event) {
+    event.preventDefault(); // Prevent form submission
+
+    var name = document.getElementById('candidateName').value;
+    var role = document.getElementById('candidateRole').value;
+    var industry = document.getElementById('candidateIndustry').value;
+    var email = document.getElementById('candidateEmail').value;
+    var linkedin = document.getElementById('candidateLinkedIn').value;
+
+    // Table selector adjusted to ".table-list"
+    var table = document.querySelector('.table-list tbody');
+    var newRow = table.insertRow();
+
+    newRow.innerHTML = `
+    <td><button onclick="openProfileCandidateModal(this.parentElement.parentElement)">View</button></td>
+    <td>${name}</td>
+    <td>Company Placeholder</td>
+    <td>${role}</td>
+    <td>${industry}</td>
+    <td>${email}</td>
+`;
+
+    // Close the modal and clear form after adding
+    closeAddCandidateModal();
+    document.querySelector('#addcandidateModal form').reset();
+}
+
+// Find the correct "Add Candidate" button in the modal and attach the event listener
+var addButtonInModal = document.querySelector('#addcandidateModal .search-bar #btnAddCandidateToTable');
+addButtonInModal.addEventListener('click', addCandidateToTable);
+
+function addNote() {
+    // Get the value from the textarea
+    const noteContent = document.getElementById('contactNotes').value;
+
+    // Check if there's any content
+    if (noteContent.trim() === '') {
+        alert('Please enter a note before adding.');
+        return;
+    }
+
+    // Get the current date and time
+    const currentDate = new Date();
+    const formattedDate = `${currentDate.toLocaleDateString()} ${currentDate.toLocaleTimeString()}`;
+
+    // Create the new list item
+    const newNote = document.createElement('li');
+    newNote.innerHTML = `<strong>${formattedDate}:</strong> ${noteContent}`;
+
+    // Add the new note to the top of the list
+    const notesList = document.getElementById('notesList');
+    notesList.insertBefore(newNote, notesList.firstChild);
+
+    // Clear the textarea
+    document.getElementById('contactNotes').value = '';
+}
+
+document.getElementById('openNotepadBtn').addEventListener('click', function() {
+    document.getElementById('notepadModal').style.display = 'block';
+});
+
+document.getElementById('closeNotepadBtn').addEventListener('click', function() {
+    document.getElementById('notepadModal').style.display = 'none';
+});
+
+let notesCount = 0;
+document.getElementById('addNoteBtn').addEventListener('click', function() {
+    notesCount++;
+    const notesCountDiv = document.getElementById('notesCount');
+    notesCountDiv.textContent = '+' + notesCount;
+    notesCountDiv.style.display = 'block';
+});
+document.addEventListener('keydown', function(e) {
+    // Check if the "Command" key (on Mac) or "Ctrl" key (on Windows/Linux) is pressed along with the "N" key
+    if ((e.metaKey || e.ctrlKey) && e.key === 'n') {
+        e.preventDefault(); // Prevent the default browser behavior (e.g., opening a new window)
+        openNotepadModal(); // Call the function that displays the notepad modal
+    }
+});
+
+function openNotepadModal() {
+    // Logic to display the notepad modal
+    const notepadModal = document.getElementById('notepadModal');
+    notepadModal.style.display = 'block';
+}
+function checkURLAndOpenModal() {
+    if (window.location.search.includes('openAddModal=true')) {
+        openAddCandidateModal();
+    }
+}
+
+// Call the function immediately after defining it
+checkURLAndOpenModal();
+
+document.getElementById('btnAddCandidateToTable').addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent form submission
+
+    var formData = new FormData();
+    formData.append('resume', document.getElementById('candidateResume').files[0]);
+
+});
+const dragDropArea = document.getElementById('dragDropArea');
+
+dragDropArea.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dragDropArea.classList.add('dragging');
+});
+
+dragDropArea.addEventListener('dragleave', () => {
+    dragDropArea.classList.remove('dragging');
+});
+
+dragDropArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dragDropArea.classList.remove('dragging');
+    
+    const files = e.dataTransfer.files;
+    if (files.length) {
+        handleFileUpload(files[0]);
+    }
+});
+// Example of how to use the parsePDF function with file input
+document.getElementById('candidateResume').addEventListener('change', function (event) {
+    const file = event.target.files[0];
+    if (file) {
+        handleFileUpload(file);
+    }
+});
+
+// Function to handle the dropped resume file
+function handleFileUpload(file) {
+    // Check if the dropped file is a PDF or DOCx (you may need to implement this)
+    if (isSupportedFileType(file)) {
+        // Use FormData to send the file to the server for parsing
+        var formData = new FormData();
+        formData.append('resume', file);
+
+        // Send the resume to the server for parsing
+        fetch('/parse_resume/', {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Populate the candidate profile form with parsed data
+            populateCandidateProfile(data);
+        })
+        .catch(error => {
+            console.error('Error parsing resume:', error);
+        });
+    } else {
+        alert('Unsupported file type. Please upload a PDF or DOCx.');
+    }
+}
+
+// Function to populate form fields with extracted data
+function populateFormFields(parsedText) {
+    // Assuming you have form fields with specific IDs, update them here
+    document.getElementById('candidateName').value = extractName(parsedText);
+    document.getElementById('candidateRole').value = extractRole(parsedText);
+    document.getElementById('candidateEmail').value = extractEmail(parsedText);
+
+    // You can add more logic to populate other fields as needed
+}
+
+// Example of how to use the parsePDF function with file input
+document.getElementById('candidateResume').addEventListener('change', function (event) {
+    const file = event.target.files[0];
+    if (file) {
+        parsePDF(file);
+    }
+});
+
+// Example functions for extracting data (customize these according to your PDF format)
+function extractName(parsedText) {
+    // Implement logic to extract the candidate's name from the parsed text
+    // For example, using regular expressions or text processing
+    return 'Candidate Name'; // Replace with the actual extracted name
+}
+
+function extractRole(parsedText) {
+    // Implement logic to extract the candidate's role/title from the parsed text
+    return 'Candidate Role'; // Replace with the actual extracted role
+}
+
+function extractEmail(parsedText) {
+    // Implement logic to extract the candidate's email from the parsed text
+    return 'candidate@example.com'; // Replace with the actual extracted email
+}
+
+
+
+</script>
+</body>
+</html>

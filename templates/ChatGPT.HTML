@@ -1,0 +1,101 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT</title>
+    <link rel="stylesheet" href="{% static 'css/common.css' %}">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="logo-container"><img src="{% static 'images/FUSED Talent Silver Logo 2400x1800.png' %}" alt=>
+            </div>
+            <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'contacts' %}">Contacts</a></li>
+            <li><a href="{% url 'companies' %}">Companies</a></li>
+            <li><a href="{% url 'jobs' %}">Jobs</a></li>
+            <li><a href="{% url 'candidates' %}">Candidates</a></li>
+            <li><a href="{% url 'deals' %}">Deals</a></li>
+            <li><a href="{% url 'chatgpt' %}">ChatGPT</a></li>
+                <button id="openNotepadBtn">Open Notepad (ctrl+N)</button>
+                <div id="notepadModal" class="notepad-modal">
+                    <textarea id="noteTextarea" class="note-textarea"></textarea>
+                    <button id="addNoteBtn">Add Note</button>
+                    <button id="closeNotepadBtn">Close</button>
+                    <div id="notesCount" class="notes-notification"></div>
+                </div>
+                <!-- Add more tabs as needed -->
+            </ul>
+        </nav>
+    </header>
+    <main class="main-content">
+        <div class="ticker-container">
+            <div class="ticker-wrapper">
+                <div class="ticker-transition">
+                    <div class="ticker-item">Revenue: $22,500</div>
+                    <div class="ticker-item">Goal: $100,000</div>
+                    <div class="ticker-item">Percentage: 20%</div>
+                    <div class="ticker-item">**OTHER COMPANY ANNOUNCMENTS**</div>
+                </div>
+            </div>
+        </div>
+        <div class="search-bar">
+            <div class="search-bar">
+                <div class="chat-display" id="chatDisplay"></div>
+                <input type="text" id="userInput" placeholder="Ask me anything...">
+                <button id="sendBtn">GO!</button>
+            </div>
+            <script src="script.js"></script>
+        </div>
+        <div class="dashboard-container tasks-container">
+        <div class="chat-container">
+            <div class="chat-display" id="chatDisplay"></div>
+
+
+            <div class="cards-container">
+                <div class="card">
+                    <h2 class="card-title">Title</h2>
+                    <p class="card-description">Description here...</p>
+                    <div class="card-actions">
+                        <button>Action 1</button>
+                        <button>Action 2</button>
+                    </div>
+                </div>
+                <!-- More cards here -->
+            </div>
+
+
+
+
+<script>
+$(document).ready(function() {
+    $('#sendBtn').click(function() {
+        const userMessage = $('#userInput').val();
+        if (userMessage.trim() !== "") {
+            $('#dashboardContainer').append('<div class="user-message">User: ' + userMessage + '</div>');
+            getChatGPTResponse(userMessage, function(response) {
+                $('#dashboardContainer').append('<div class="chatgpt-message">ChatGPT: ' + response + '</div>');
+            });
+        }
+        $('#userInput').val(''); // Clear the input field
+    });
+});
+
+function getChatGPTResponse(message, callback) {
+    // Mock function to simulate backend API call
+    // In a real-world scenario, replace this with an AJAX call to your backend
+    const mockResponse = "Hello! This is a mock response from ChatGPT.";
+    setTimeout(function() {
+        callback(mockResponse);
+    }, 1000);
+}
+
+</script>
+</body>
+</html>

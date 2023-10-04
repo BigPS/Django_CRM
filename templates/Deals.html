@@ -1,0 +1,320 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deals Page</title>
+    <link rel="stylesheet" href="{% static 'css/common.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo-container"><img src="{% static 'images/FUSED Talent Silver Logo 2400x1800.png' %}" alt="FUSED Talent Logo"></div>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'contacts' %}">Contacts</a></li>
+                <li><a href="{% url 'companies' %}">Companies</a></li>
+                <li><a href="{% url 'jobs' %}">Jobs</a></li>
+                <li><a href="{% url 'candidates' %}">Candidates</a></li>
+                <li><a href="{% url 'deals' %}">Deals</a></li>
+                <li><a href="{% url 'chatgpt' %}">ChatGPT</a></li>
+                <div class="flex-container"></div>
+                <button id="openNotepadBtn">Create Note (ctrl+N)</button>
+                <div id="notepadModal" class="notepad-modal">
+                    <textarea id="noteTextarea" class="note-textarea"></textarea>
+                    <button id="addNoteBtn">Add Note</button>
+                    <button id="closeNotepadBtn">Close</button>
+                    <div id="notesCount" class="notes-notification"></div>
+                </div>
+                <!-- Add more tabs as needed -->
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="ticker-container">
+            <div class="ticker-wrapper">
+                <div class="ticker-transition">
+                    <div class="ticker-item">Revenue: $22,500</div>
+                    <div class="ticker-item">Goal: $100,000</div>
+                    <div class="ticker-item">Percentage: 20%</div>
+                    <div class="ticker-item">**OTHER COMPANY ANNOUNCMENTS**</div>
+                </div>
+            </div>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Search...">
+            <button>Search</button>
+            <button onclick="openAddDealModal('jobModal')">Add Deal</button>
+        </div>  <div class="container">
+    
+
+        <div class="container">
+            <h3>DEALS REPORT</h3>
+        <table class="table-list">
+            <thead>
+                <tr>
+                    <th>Team Member Name</th>
+                    <th>Lead</th>
+                    <th>Meeting Set</th>
+                    <th>Won-Contingent</th>
+                    <th>Won</th>
+                    <th>Lost</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Paul Sinclair</td>
+                    <td>0</td>
+                    <td>2 ($40,000)</td>
+                    <td>5 ($152,000)</td>
+                    <td>1 ($22,500)</td>
+                    <td>3 ($73,000)</td>
+                </tr>
+                <tr>
+                    <td>Phil Haig</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Total</td>
+                    <td>0</td>
+                    <td>2</td>
+                    <td>5</td>
+                    <td>1</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>Deal Value</td>
+                    <td>0</td>
+                    <td>$40,000.00</td>
+                    <td>$152,000.00</td>
+                    <td>$22,500.00</td>
+                    <td>$73,000.00</td>
+                </tr>
+                <tr>
+                    <td>Weighted Deal Value</td>
+                    <td>0</td>
+                    <td>$4,000.00</td>
+                    <td>$76,000.00</td>
+                    <td>$22,500.00</td>
+                    <td>0</td>
+                </tr>
+            </tbody>
+            </table>
+        
+            <!-- Deals Table -->
+         <div class="container">
+            <h3>PLACEMENTS</h3>
+            <table class="table-list">
+                <thead>
+                    <tr class="table-header">
+                        <th>Job Title</th>
+                        <th>Company</th>
+                        <th>Revenue Generated</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Example row -->
+                    <tr class="table-row">
+                        <td>Account Executive</td>
+                        <td>WeeCare</td>
+                        <td>$22,500</td>
+                    </tr>
+                    <!-- Add more rows as needed -->
+                </tbody>
+            </table>
+        </div>
+                    
+                </tbody>
+            </table>
+        </div>
+
+        
+                    <h3>DEAL PIPELINE</h3>
+        
+                    <div class="container">
+                    <div class="kanban-board table-list">
+                        <!-- Columns for each step in the pipeline -->
+                    
+                            <!-- Draggable deal cards will go here -->
+        
+                        <div class="kanban-column table-column" data-status="Meeting Set">
+                            <h3 class="table-header">Meeting Set</h3>
+                        </div>
+        
+                        <div class="kanban-column table-column" data-status="Contracting">
+                            <h3 class="table-header">Contracting</h3>
+                        </div>
+        
+                        <div class="kanban-column table-column" data-status="Won">
+                            <h3 class="table-header">Won</h3>
+                        </div>
+        
+                        <div class="kanban-column table-column last-column" data-status="Lost">
+                            <h3 class="table-header">Lost</h3>
+                        </div>
+            </div>
+        </div>
+        
+    </body>
+    </html>
+    </html>
+    </main>
+
+<!-- Add Deal Modal -->
+<div class="modal profile-modal" id="addDealModal">
+    <form id="dealForm">
+    <div class="modal-content">
+        <span class="close-btn" id="closeAddDealModal">&times;</span>
+        <h3>Add New Deal</h3>
+        <form id="form-group">
+            <label for="company">Company:</label>
+            <input type="text" id="company" required>
+            
+            <label for="scope">Scope of Deal:</label>
+            <input type="text" id="scope" required>
+            
+            <label for="fee">Estimated Fee $:</label>
+            <input type="number" id="fee" required>
+            
+            <button type="submit">Add Deal</button>
+        </form>
+    </div>
+</div>
+
+<script>
+
+document.getElementById('openNotepadBtn').addEventListener('click', function() {
+    document.getElementById('notepadModal').style.display = 'block';
+});
+
+document.getElementById('closeNotepadBtn').addEventListener('click', function() {
+    document.getElementById('notepadModal').style.display = 'none';
+});
+
+let notesCount = 0;
+document.getElementById('addNoteBtn').addEventListener('click', function() {
+    notesCount++;
+    const notesCountDiv = document.getElementById('notesCount');
+    notesCountDiv.textContent = '+' + notesCount;
+    notesCountDiv.style.display = 'block';
+});
+
+document.addEventListener('keydown', function(e) {
+    // Check if the "Command" key (on Mac) or "Ctrl" key (on Windows/Linux) is pressed along with the "N" key
+    if ((e.metaKey || e.ctrlKey) && e.key === 'n') {
+        e.preventDefault(); // Prevent the default browser behavior (e.g., opening a new window)
+        openNotepadModal(); // Call the function that displays the notepad modal
+    }
+});
+
+function openNotepadModal() {
+    // Logic to display the notepad modal
+    const notepadModal = document.getElementById('notepadModal');
+    notepadModal.style.display = 'block';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    checkURLAndOpenDealModal();
+});
+
+function checkURLAndOpenDealModal() {
+    if (window.location.search.includes('openAddDealModal=true')) {
+        openAddDealModal();
+    }
+}
+
+// Get all the deal cards and columns
+let dealCards = document.querySelectorAll('.deal-card');
+let dealColumns = document.querySelectorAll('.kanban-column');
+
+// Add drag and drop events to each card
+dealCards.forEach(card => {
+    card.addEventListener('dragstart', dragStart);
+    card.addEventListener('dragend', dragEnd);
+});
+
+// Add drag over and drop events to each column
+dealColumns.forEach(column => {
+    column.addEventListener('dragover', dragOver);
+    column.addEventListener('drop', drop);
+});
+
+function dragStart(e) {
+    setTimeout(() => {
+        e.target.classList.add('invisible');
+    }, 0);
+}
+
+function dragEnd(e) {
+    e.target.classList.remove('invisible');
+}
+
+function dragOver(e) {
+    e.preventDefault();
+}
+
+function drop(e) {
+    e.target.appendChild(document.querySelector('.invisible'));
+}
+// ... Your existing JavaScript ...
+
+// Open the "Add Deal" modal
+function openAddDealModal() {
+    document.getElementById('addDealModal').style.display = 'block';
+}
+
+// Close the "Add Deal" modal
+document.getElementById('closeAddDealModal').addEventListener('click', function() {
+    closeModal('addDealModal');
+});
+
+// Handle the form submission
+document.getElementById('dealForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Get the form values
+    const company = document.getElementById('company').value;
+    const scope = document.getElementById('scope').value;
+    const fee = document.getElementById('fee').value;
+
+    // Create a new deal card
+    const dealCard = document.createElement('div');
+    dealCard.classList.add('deal-card');
+    dealCard.setAttribute('draggable', 'true');
+    dealCard.innerHTML = `
+        <strong>${company}</strong><br>
+        ${scope}<br>
+        Estimated Fee: $${fee}
+    `;
+
+    // Add drag events to the new card
+    dealCard.addEventListener('dragstart', dragStart);
+    dealCard.addEventListener('dragend', dragEnd);
+
+    // Append the new card to the "Meeting Set" column (or any other column you want)
+    const meetingSetColumn = document.querySelector('.kanban-column[data-status="Meeting Set"]');
+    meetingSetColumn.appendChild(dealCard);
+
+    // Clear the form and close the modal
+    document.getElementById('dealForm').reset();
+    closeModal('addDealModal');
+});
+
+// Utility function to close modals
+function closeModal(modalId) {
+    document.getElementById(modalId).style.display = 'none';
+}
+
+</script>
+</body>
+
+</html>
