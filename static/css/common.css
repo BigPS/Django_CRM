@@ -886,4 +886,8 @@ select option {
     .deal-card:hover {
         background-color: #eeebe0;
     }
-    
+
+    .form-error {
+        color: red;
+        text-align: center;
+    }
